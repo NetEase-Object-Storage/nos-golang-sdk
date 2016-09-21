@@ -10,7 +10,6 @@ type Config struct {
 	Endpoint      string
 	AccessKey     string
 	SecretKey     string
-	XNosWhiteList string
 
 	NosServiceConnectTimeout    int
 	NosServiceReadWriteTimeout  int
