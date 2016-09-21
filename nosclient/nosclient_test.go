@@ -1,4 +1,4 @@
-﻿package nosclient
+package nosclient
 
 import (
 	. "gopkg.in/check.v1"
@@ -21,9 +21,13 @@ type NosClientTestSuite struct {
 func (s *NosClientTestSuite) SetUpSuite(c *C) {
 
 	conf := &config.Config{
-		Endpoint:  "xxxxxxxxxxxxx",
-		AccessKey: "xxxxxxxxxxxxx",
-		SecretKey: "xxxxxxxxxxxxxx",
+		Endpoint:  "nos.netease.com",
+		AccessKey: "b6ff5ed65d1041e9a56e2257a2672990",
+		SecretKey: "ae0208eea57c4bc9bc5754368c06a542",
+
+		/*Endpoint:  "10.120.146.201:8090",
+		AccessKey: "7cf30204fe49413f8d1c7eface4682e9",
+		SecretKey: "06d51b42585a48a582bc5ff174ced03c",*/
 
 		NosServiceConnectTimeout:    3,
 		NosServiceReadWriteTimeout:  60,

@@ -1,9 +1,9 @@
 package config
 
 import (
-	"nos-golang-sdk/logger"
-	"nos-golang-sdk/noserror"
-	"nos-golang-sdk/utils"
+	"github.com/NetEase-Object-Storage/nos-golang-sdk/logger"
+	"github.com/NetEase-Object-Storage/nos-golang-sdk/noserror"
+	"github.com/NetEase-Object-Storage/nos-golang-sdk/utils"
 )
 
 type Config struct {
