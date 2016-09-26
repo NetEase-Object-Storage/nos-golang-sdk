@@ -5,10 +5,6 @@ import (
 	"crypto/md5"
 	"encoding/hex"
 	"encoding/xml"
-	gohttpclient "github.com/mreiferson/go-httpclient"
-	"io"
-	"net/http"
-	"net/url"
 	"github.com/NetEase-Object-Storage/nos-golang-sdk/auth"
 	"github.com/NetEase-Object-Storage/nos-golang-sdk/config"
 	"github.com/NetEase-Object-Storage/nos-golang-sdk/logger"
@@ -16,15 +12,19 @@ import (
 	"github.com/NetEase-Object-Storage/nos-golang-sdk/nosconst"
 	"github.com/NetEase-Object-Storage/nos-golang-sdk/noserror"
 	"github.com/NetEase-Object-Storage/nos-golang-sdk/utils"
+	gohttpclient "github.com/mreiferson/go-httpclient"
+	"io"
+	"net/http"
+	"net/url"
 	"os"
 	"strconv"
 	"time"
 )
 
 type NosClient struct {
-	endPoint      string
-	accessKey     string
-	secretKey     string
+	endPoint  string
+	accessKey string
+	secretKey string
 
 	httpClient *http.Client
 	Log        logger.NosLog
@@ -54,9 +54,9 @@ func New(conf *config.Config) (*NosClient, error) {
 	}
 
 	client := &NosClient{
-		endPoint:      conf.Endpoint,
-		accessKey:     conf.AccessKey,
-		secretKey:     conf.SecretKey,
+		endPoint:  conf.Endpoint,
+		accessKey: conf.AccessKey,
+		secretKey: conf.SecretKey,
 
 		httpClient: NewHttpClient(
 			conf.NosServiceConnectTimeout,
@@ -608,10 +608,16 @@ func (client *NosClient) UploadPart(uploadPartRequest *model.UploadPartRequest) 
 	partNumber := uploadPartRequest.PartNumber
 	content := uploadPartRequest.Content
 	partSize := uploadPartRequest.PartSize
+	contentMd5 := uploadPartRequest.ContentMd5
 
 	err := utils.VerifyParamsWithObject(bucket, object)
 	if err != nil {
 		return nil, err
+	}
+	metadata := &model.ObjectMetadata{}
+	metadata.Metadata = make(map[string]string)
+	if contentMd5 != "" {
+		metadata.Metadata[nosconst.CONTENT_MD5] = contentMd5
 	}
 
 	params := map[string]string{
@@ -622,7 +628,7 @@ func (client *NosClient) UploadPart(uploadPartRequest *model.UploadPartRequest) 
 		R: bytes.NewReader(content),
 		N: partSize,
 	}
-	request, err := client.getNosRequest("PUT", bucket, object, nil, limitReader,
+	request, err := client.getNosRequest("PUT", bucket, object, metadata, limitReader,
 		params, nosconst.JSON_TYPE)
 	if err != nil {
 		return nil, err
@@ -659,6 +665,8 @@ func (client *NosClient) CompleteMultiUpload(completeMultiUploadRequest *model.C
 	object := completeMultiUploadRequest.Object
 	uploadId := completeMultiUploadRequest.UploadId
 	parts := completeMultiUploadRequest.Parts
+	contentMd5 := completeMultiUploadRequest.ContentMd5
+	objectMd5 := completeMultiUploadRequest.ObjectMd5
 
 	err := utils.VerifyParamsWithObject(bucket, object)
 	if err != nil {
@@ -669,14 +677,19 @@ func (client *NosClient) CompleteMultiUpload(completeMultiUploadRequest *model.C
 		nosconst.UPLOADID: uploadId,
 	}
 
+	metadata := &model.ObjectMetadata{}
+	metadata.Metadata = make(map[string]string)
+	if contentMd5 != "" {
+		metadata.Metadata[nosconst.CONTENT_MD5] = contentMd5
+	}
+	if objectMd5 != "" {
+		metadata.Metadata[nosconst.X_NOS_OBJECT_MD5] = objectMd5
+	}
+
 	uploadParts := model.UploadParts{Parts: parts}
 	body, err := xml.Marshal(uploadParts)
 	if err != nil {
 		return nil, err
-	}
-
-	metadata := &model.ObjectMetadata{
-		ContentLength: int64(len(body)),
 	}
 
 	request, err := client.getNosRequest("POST", bucket, object, metadata, bytes.NewReader(body),

@@ -43,7 +43,6 @@ func (s *NosClientTestSuite) SetUpSuite(c *C) {
 var _ = Suite(&NosClientTestSuite{})
 
 const (
-	//TEST_BUCKET   = "php-sdk-test"
 	TEST_BUCKET    = "gosdktest"
 	PUTOBJECTFILE  = "fortest"
 	BIGFILEOBJECT  = "bigfile.mp4"
