@@ -7,12 +7,12 @@ import (
 	"encoding/xml"
 	"github.com/NetEase-Object-Storage/nos-golang-sdk/auth"
 	"github.com/NetEase-Object-Storage/nos-golang-sdk/config"
+	"github.com/NetEase-Object-Storage/nos-golang-sdk/httpclient"
 	"github.com/NetEase-Object-Storage/nos-golang-sdk/logger"
 	"github.com/NetEase-Object-Storage/nos-golang-sdk/model"
 	"github.com/NetEase-Object-Storage/nos-golang-sdk/nosconst"
 	"github.com/NetEase-Object-Storage/nos-golang-sdk/noserror"
 	"github.com/NetEase-Object-Storage/nos-golang-sdk/utils"
-	gohttpclient "github.com/mreiferson/go-httpclient"
 	"io"
 	"net/http"
 	"net/url"
@@ -33,7 +33,7 @@ type NosClient struct {
 func NewHttpClient(connectTimeout, requestTimeout, readWriteTimeout,
 	maxIdleConnection int) *http.Client {
 
-	tr := &gohttpclient.Transport{
+	tr := &httpclient.Transport{
 		ConnectTimeout:      time.Duration(connectTimeout) * time.Second,
 		RequestTimeout:      time.Duration(requestTimeout) * time.Second,
 		ReadWriteTimeout:    time.Duration(readWriteTimeout) * time.Second,
