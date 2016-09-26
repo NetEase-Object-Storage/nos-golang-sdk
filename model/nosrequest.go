@@ -102,13 +102,16 @@ type UploadPartRequest struct {
 	PartNumber int
 	Content    []byte
 	PartSize   int64
+	ContentMd5 string
 }
 
 type CompleteMultiUploadRequest struct {
-	Bucket   string
-	Object   string
-	UploadId string
-	Parts    []UploadPart
+	Bucket     string
+	Object     string
+	UploadId   string
+	Parts      []UploadPart
+	ContentMd5 string
+	ObjectMd5  string
 }
 
 type AbortMultiUploadRequest struct {
