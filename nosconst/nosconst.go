@@ -23,7 +23,7 @@ const (
 	LIST_MARKER          = "marker"
 	LIST_MAXKEYS         = "max-keys"
 	UPLOADID             = "uploadId"
-	MAX_PARTS            = "max_parts"
+	MAX_PARTS            = "max-parts"
 	PARTNUMBER           = "partNumber"
 	UPLOADS              = "uploads"
 	PART_NUMBER_MARKER   = "part-number-marker"
