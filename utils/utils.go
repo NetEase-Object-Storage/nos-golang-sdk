@@ -13,6 +13,7 @@ import (
 	"strconv"
 	"strings"
 	"unicode"
+	"runtime"
 )
 
 // VerifyObjectName check if the BucketName is legal
@@ -212,5 +213,13 @@ func NosUrlEncode(origin string) string {
 	str := strings.Replace(url.QueryEscape(origin), "+", "%20", -1)
 	str = strings.Replace(str, "~", "%7E", -1)
 	str = strings.Replace(str, "%2A", "*", -1)
+	return str
+}
+
+func InitUserAgent() string {
+	str := nosconst.SDKNAME + "/" + nosconst.VERSION + " "
+	str += runtime.GOOS + "/" + runtime.GOARCH + "/"
+	str += "golang version:" + runtime.Version()
+
 	return str
 }

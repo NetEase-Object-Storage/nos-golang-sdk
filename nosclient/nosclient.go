@@ -100,6 +100,7 @@ func (client *NosClient) getNosRequest(method, bucket, object string, metadata *
 	//add http header
 	request.Header.Set(nosconst.DATE, (time.Now().Format(nosconst.RFC1123_NOS)))
 	request.Header.Set(nosconst.NOS_ENTITY_TYPE, bodyStyle)
+	request.Header.Set(nosconst.USER_AGENT, utils.InitUserAgent())
 
 	if metadata != nil {
 		if metadata.Metadata != nil {

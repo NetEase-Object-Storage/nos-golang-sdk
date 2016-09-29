@@ -14,6 +14,7 @@ const (
 	CONTENT_TYPE         = "Content-Type"
 	CONTENT_MD5          = "Content-Md5"
 	LAST_MODIFIED        = "Last-Modified"
+	USER_AGENT           = "User-Agent"
 	DATE                 = "Date"
 	AUTHORIZATION        = "Authorization"
 	RANGE                = "Range"
@@ -48,6 +49,9 @@ const (
 	ORIG_X_NOS_OBJECT_NAME        = "x-nos-object-name"
 	ORIG_X_NOS_REQUEST_ID         = "x-nos-request-id"
 	ORIG_X_NOS_OBJECT_MD5         = "x-nos-Object-md5"
+
+	SDKNAME                       = "nos-golang-sdk"
+	VERSION                       = "1.0.0"
 
 	JSON_TYPE = "json"
 	XML_TYPE  = "xml"
