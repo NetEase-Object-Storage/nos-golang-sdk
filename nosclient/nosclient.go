@@ -136,8 +136,8 @@ acl nosconst.Acl) error {
     var aclString string
 
     switch acl {
-    case nosconst.PUBLIC:
-        aclString = "public"
+    case nosconst.PUBLICREAD:
+        aclString = "public-read"
     case nosconst.PRIVATE:
         aclString = "private"
     }

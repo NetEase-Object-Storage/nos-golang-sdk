@@ -56,7 +56,7 @@ const (
 
 
 func (s *NosClientTestSuite) TestCreateBucket(c *C) {
-    err := s.nosClient.CreateBucket("sjltestbucket",nosconst.HZ, nosconst.PRIVATE )
+    err := s.nosClient.CreateBucket("sjltestbucket-public",nosconst.HZ, nosconst.PUBLICREAD)
     c.Assert(err, IsNil)
 }
 

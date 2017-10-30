@@ -11,7 +11,7 @@ type Acl int
 
 const(
     PRIVATE = iota
-    PUBLIC
+    PUBLICREAD
 )
 
 const (
