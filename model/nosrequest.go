@@ -5,6 +5,15 @@ import (
 	"io"
 )
 
+// Create Bucket 
+
+type CreateBucketRequest struct {
+    XMLName xml.Name  `xml:"CreateBucketConfiguration"`
+    Location  string  `xml:"LocationConstraint"`
+}
+
+
+
 // CompleteMultiUpload
 type UploadPart struct {
 	XMLName    xml.Name `xml:"Part"`

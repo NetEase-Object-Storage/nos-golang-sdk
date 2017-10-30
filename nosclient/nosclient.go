@@ -19,6 +19,7 @@ import (
 	"os"
 	"strconv"
 	"time"
+    "errors"
 )
 
 type NosClient struct {
@@ -98,7 +99,8 @@ func (client *NosClient) getNosRequest(method, bucket, object string, metadata *
 	}
 	request.URL.Opaque = opaque
 	//add http header
-	request.Header.Set(nosconst.DATE, (time.Now().UTC().Format(nosconst.RFC1123_GMT)))
+	//request.Header.Set(nosconst.DATE, (time.Now().Format(nosconst.RFC1123_GMT)))
+    request.Header.Set(nosconst.DATE, (time.Now().UTC().Format(nosconst.RFC1123_GMT)))
 	request.Header.Set(nosconst.NOS_ENTITY_TYPE, bodyStyle)
 	request.Header.Set(nosconst.USER_AGENT, utils.InitUserAgent())
 
@@ -118,6 +120,59 @@ func (client *NosClient) getNosRequest(method, bucket, object string, metadata *
 	}
 
 	return request, nil
+}
+
+
+func (client *NosClient) CreateBucket(bucketName string, location nosconst.Location,
+acl nosconst.Acl) error {
+    var locationConstraint string
+    switch location {
+    case nosconst.HZ:
+       locationConstraint = "HZ"
+    default:
+        return errors.New("unsupported Location")
+    }
+
+    var aclString string
+
+    switch acl {
+    case nosconst.PUBLIC:
+        aclString = "public"
+    case nosconst.PRIVATE:
+        aclString = "private"
+    }
+
+    request := &model.CreateBucketRequest {
+        Location: locationConstraint,
+    }
+    body, err := xml.Marshal(request)
+    if err != nil {
+        return err
+    }
+
+    //Metadata
+    metadata := &model.ObjectMetadata {
+        Metadata: map[string]string{
+            nosconst.X_NOS_ACL: aclString,
+        },
+    }
+
+    req, err := client.getNosRequest("PUT", bucketName, "",
+        metadata, bytes.NewReader(body), nil, nosconst.XML_TYPE)
+
+	resp, err := client.httpClient.Do(req)
+	if err != nil {
+		return err
+	}
+	defer resp.Body.Close()
+	client.Log.Debug("resp.StatusCode=", resp.StatusCode)
+
+	if resp.StatusCode == http.StatusOK {
+		return nil
+	} else {
+		err := utils.ProcessServerError(resp, bucketName, "")
+		return err
+	}
 }
 
 func (client *NosClient) PutObjectByStream(putObjectRequest *model.PutObjectRequest) (*model.ObjectResult, error) {

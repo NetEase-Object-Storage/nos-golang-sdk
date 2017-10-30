@@ -54,6 +54,12 @@ const (
 	BUCKETNOTEXIST = "1a2b3c4dexist"
 )
 
+
+func (s *NosClientTestSuite) TestCreateBucket(c *C) {
+    err := s.nosClient.CreateBucket("sjltestbucket",nosconst.HZ, nosconst.PRIVATE )
+    c.Assert(err, IsNil)
+}
+
 func (s *NosClientTestSuite) TestPutObjectByStream(c *C) {
 
 	//test put object ok

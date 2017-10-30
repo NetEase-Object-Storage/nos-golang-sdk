@@ -1,5 +1,19 @@
 package nosconst
 
+
+const (
+    HZ = iota
+)
+
+type Location  int
+type Acl int
+
+
+const(
+    PRIVATE = iota
+    PUBLIC
+)
+
 const (
 	DEFAULT_MAXBUFFERSIZE = 1024 * 1024
 	MAX_FILESIZE          = 100 * 1024 * 1024
@@ -41,6 +55,7 @@ const (
 	X_NOS_OBJECT_MD5         = "X-Nos-Object-Md5"
 	X_NOS_COPY_SOURCE        = "x-nos-copy-source"
 	X_NOS_MOVE_SOURCE        = "x-nos-move-source"
+    X_NOS_ACL                = "x-nos-acl"
 
 	ORIG_CONTENT_MD5              = "Content-MD5"
 	ORIG_ETAG                     = "ETag"
