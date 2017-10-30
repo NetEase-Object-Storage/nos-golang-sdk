@@ -98,7 +98,7 @@ func (client *NosClient) getNosRequest(method, bucket, object string, metadata *
 	}
 	request.URL.Opaque = opaque
 	//add http header
-	request.Header.Set(nosconst.DATE, (time.Now().Format(nosconst.RFC1123_NOS)))
+	request.Header.Set(nosconst.DATE, (time.Now().UTC().Format(nosconst.RFC1123_GMT)))
 	request.Header.Set(nosconst.NOS_ENTITY_TYPE, bodyStyle)
 	request.Header.Set(nosconst.USER_AGENT, utils.InitUserAgent())
 

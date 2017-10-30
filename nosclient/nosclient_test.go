@@ -2,10 +2,10 @@ package nosclient
 
 import (
 	. "gopkg.in/check.v1"
-	"nos-golang-sdk/config"
-	"nos-golang-sdk/logger"
-	"nos-golang-sdk/model"
-	"nos-golang-sdk/nosconst"
+	"github.com/NetEase-Object-Storage/nos-golang-sdk/config"
+	"github.com/NetEase-Object-Storage/nos-golang-sdk/logger"
+	"github.com/NetEase-Object-Storage/nos-golang-sdk/model"
+	"github.com/NetEase-Object-Storage/nos-golang-sdk/nosconst"
 	"os"
 	"strings"
 	"testing"
