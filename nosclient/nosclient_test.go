@@ -1,11 +1,11 @@
 package nosclient
 
 import (
-	. "gopkg.in/check.v1"
 	"github.com/NetEase-Object-Storage/nos-golang-sdk/config"
 	"github.com/NetEase-Object-Storage/nos-golang-sdk/logger"
 	"github.com/NetEase-Object-Storage/nos-golang-sdk/model"
 	"github.com/NetEase-Object-Storage/nos-golang-sdk/nosconst"
+	. "gopkg.in/check.v1"
 	"os"
 	"strings"
 	"testing"
@@ -54,10 +54,9 @@ const (
 	BUCKETNOTEXIST = "1a2b3c4dexist"
 )
 
-
 func (s *NosClientTestSuite) TestCreateBucket(c *C) {
-    err := s.nosClient.CreateBucket("sjltestbucket-public",nosconst.HZ, nosconst.PUBLICREAD)
-    c.Assert(err, IsNil)
+	err := s.nosClient.CreateBucket("sjltestbucket-public", nosconst.HZ, nosconst.PUBLICREAD)
+	c.Assert(err, IsNil)
 }
 
 func (s *NosClientTestSuite) TestPutObjectByStream(c *C) {
