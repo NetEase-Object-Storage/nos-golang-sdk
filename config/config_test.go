@@ -2,8 +2,8 @@ package config
 
 import (
 	. "gopkg.in/check.v1"
-	"nos-golang-sdk/logger"
-	"nos-golang-sdk/noserror"
+	"github.com/NetEase-Object-Storage/nos-golang-sdk/logger"
+	"github.com/NetEase-Object-Storage/nos-golang-sdk/noserror"
 	"testing"
 )
 
