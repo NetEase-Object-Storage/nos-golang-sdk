@@ -29,6 +29,7 @@ type NosClient struct {
 
 	httpClient *http.Client
 	Log        logger.NosLog
+	isSubDomain bool
 }
 
 func NewHttpClient(connectTimeout, requestTimeout, readWriteTimeout,
@@ -69,6 +70,8 @@ func New(conf *config.Config) (*NosClient, error) {
 			LogLevel: conf.LogLevel,
 			Logger:   conf.Logger,
 		},
+
+		isSubDomain: conf.GetIsSubDomain(),
 	}
 
 	return client, nil
@@ -78,7 +81,12 @@ func (client *NosClient) getNosRequest(method, bucket, object string, metadata *
 	body io.Reader, params map[string]string, bodyStyle string) (*http.Request, error) {
 
 	var opaque string
-	urlStr := "http://" + bucket + "." + client.endPoint + "/"
+	var urlStr string
+	if client.isSubDomain {
+		urlStr = "http://" + bucket + "." + client.endPoint + "/"
+	} else {
+		urlStr = "http://" + client.endPoint + "/" + bucket + "/"
+	}
 
 	encodedObject := utils.NosUrlEncode(object)
 	urlStr += encodedObject

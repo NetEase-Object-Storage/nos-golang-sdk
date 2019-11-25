@@ -18,6 +18,21 @@ type Config struct {
 	LogLevel *logger.LogLevelType
 
 	Logger logger.Logger
+
+	IsSubDomain *bool
+}
+
+func (conf *Config) SetIsSubDomain(isSubDomain bool) error {
+	conf.IsSubDomain = &isSubDomain
+	return nil
+}
+
+func (conf *Config) GetIsSubDomain() bool {
+	if conf.IsSubDomain == nil {
+		return true
+	} else {
+		return *conf.IsSubDomain
+	}
 }
 
 func (conf *Config) Check() error {
